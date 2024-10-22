@@ -1,34 +1,60 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-require_once 'controllers/HomeController.php';
-require_once 'controllers/LoginController.php';
-require_once 'controllers/RegisterController.php';
+echo "<pre>";
+print_r($_SERVER);
+echo "</pre>";
 
-$controller = null;
+// Gerekli dosyaların yüklenmesi
+require_once 'config/database.php';
+require_once 'helpers/string_helper.php';
+require_once 'modules/home/HomeController.php';
+require_once 'modules/login/LoginController.php';
+require_once 'modules/register/RegisterController.php';
 
-switch ($_SERVER['REQUEST_URI']) {
-    case '/app/ui/view/login/login_view.php':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller = new LoginController();
-            $controller->login();
-        } else {
-            $controller = new LoginController();
-            $controller->showLoginForm();
-        }
-        break;
+$request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    case '/app/ui/view/register/register_view.php':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller = new RegisterController();
-            $controller->register();
-        } else {
-            $controller = new RegisterController();
-            $controller->showRegisterForm();
-        }
-        break;
+var_dump($request); // "/nutriPT/app/index.php"
 
-    default:
+if ($request === '/nutriPT/app/index.php' || $request === '/nutriPT/') {
+    header('Location: /nutriPT/home');
+    exit();
+}
+
+
+// Kök dizini belirleyin
+$rootPath = 'http://localhost:63342/nutriPT';
+
+switch ($rootPath) {
+    case $rootPath . '/home':
         $controller = new HomeController();
         $controller->index();
         break;
+    case $rootPath . '/about':
+        $controller = new HomeController();
+        $controller->about();
+        break;
+    case $rootPath . '/services':
+        $controller = new HomeController();
+        $controller->services();
+        break;
+    case $rootPath . '/contact':
+        $controller = new HomeController();
+        $controller->contact();
+        break;
+    case $rootPath . '/login':
+        $controller = new LoginController();
+        $controller->index();
+        break;
+    case $rootPath . '/register':
+        $controller = new RegisterController();
+        $controller->index();
+        break;
+    default:
+        http_response_code(404);
+        require __DIR__ . '/modules/404.php'; // 404 sayfasını yükle
+        break;
 }
+
+?>

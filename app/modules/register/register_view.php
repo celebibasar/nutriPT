@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nutriPT - Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php $baseURL = 'http://localhost:63342/nutriPT';
-    echo $baseURL; ?>/app/ui/view/register/style.css">
+    <?php
+    $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
+    ?>
+    <link rel="stylesheet" href="<?php echo $baseURL; ?>/app/modules/register/style.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -32,7 +34,7 @@
         </div>
         <div class="error-message" id="error-message"></div>
         <button type="submit" class="btn">Register</button>
-        <p class="login-link">Already have an account? <a href="<?php echo $baseURL; ?>/app/ui/view/login/login_view.php">Login</a></p>
+        <p class="login-link">Already have an account? <a href="<?php echo $baseURL; ?>/app/viewgin/login_view.php">Login</a></p>
     </form>
 </div>
 
