@@ -1,10 +1,8 @@
 <?php
+ob_start(); // Start output buffering
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-echo "<pre>";
-print_r($_SERVER);
-echo "</pre>";
 
 // Gerekli dosyaların yüklenmesi
 require_once 'config/database.php';
@@ -15,39 +13,37 @@ require_once 'modules/register/RegisterController.php';
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-var_dump($request); // "/nutriPT/app/index.php"
+// Normalize request by trimming trailing slashes
+$request = rtrim($request, '/');
 
-if ($request === '/nutriPT/app/index.php' || $request === '/nutriPT/') {
-    header('Location: /nutriPT/home');
-    exit();
-}
+// For debugging, uncomment to see what $request contains
+// var_dump($request); // Debug line
 
-
-// Kök dizini belirleyin
-$rootPath = 'http://localhost:63342/nutriPT';
-
-switch ($rootPath) {
-    case $rootPath . '/home':
+// Route matching
+switch ($request) {
+    case '/nutriPT/app/index.php': // Homepage case when accessing through index.php
+    case '/nutriPT': // Homepage root access
+    case '/nutriPT/home': // Direct home page URL
         $controller = new HomeController();
         $controller->index();
         break;
-    case $rootPath . '/about':
+    case '/nutriPT/about':
         $controller = new HomeController();
         $controller->about();
         break;
-    case $rootPath . '/services':
+    case '/nutriPT/services':
         $controller = new HomeController();
         $controller->services();
         break;
-    case $rootPath . '/contact':
+    case '/nutriPT/contact':
         $controller = new HomeController();
         $controller->contact();
         break;
-    case $rootPath . '/login':
+    case '/nutriPT/login':
         $controller = new LoginController();
         $controller->index();
         break;
-    case $rootPath . '/register':
+    case '/nutriPT/register':
         $controller = new RegisterController();
         $controller->index();
         break;
@@ -57,4 +53,4 @@ switch ($rootPath) {
         break;
 }
 
-?>
+ob_end_flush(); // Send output buffering content to the browser
