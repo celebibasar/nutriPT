@@ -21,6 +21,8 @@ $request = rtrim($request, '/');
 
 // Route matching
 switch ($request) {
+    case '':
+    case '/':
     case '/nutriPT/app/index.php': // Homepage case when accessing through index.php
     case '/nutriPT': // Homepage root access
     case '/nutriPT/home': // Direct home page URL

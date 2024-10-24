@@ -7,16 +7,18 @@
     <?php
     $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
     ?>
-    <link rel="stylesheet" href="<?php echo $baseURL; ?>/app/modules/home/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> <!-- Google Font -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Icons -->
+    <style>
+        <?php require_once "style.css"?>
+    </style>
 </head>
 <body>
 <header>
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <img src="<?php echo $baseURL; ?>/app/images/nutriPT-White-Transparent.png" alt="logo" style="width:50px;height:50px;">
+                <img src="/images/nutriPT-White-Transparent.png" alt="logo" style="width:50px;height:50px;">
             </div>
             <ul class="nav-links">
                 <li><a href="<?php echo $baseURL; ?>/home">Home</a></li>

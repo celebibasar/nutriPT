@@ -8,7 +8,9 @@
     <?php
     $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
     ?>
-    <link rel="stylesheet" href="<?php echo $baseURL; ?>/app/modules/register/style.css">
+    <style>
+        <?php require_once "style.css"?>
+    </style>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -34,7 +36,7 @@
         </div>
         <div class="error-message" id="error-message"></div>
         <button type="submit" class="btn">Register</button>
-        <p class="login-link">Already have an account? <a href="<?php echo $baseURL; ?>/app/viewgin/login_view.php">Login</a></p>
+        <p class="login-link">Already have an account? <a href="<?php echo $baseURL; ?>/login">Login</a></p>
     </form>
 </div>
 

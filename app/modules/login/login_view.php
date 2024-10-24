@@ -7,7 +7,9 @@
     <?php
     $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
     ?>
-    <link rel="stylesheet" href="<?php echo $baseURL; ?>/app/modules/login/style.css">
+    <style>
+        <?php require_once "style.css"?>
+    </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -26,7 +28,7 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit" class="btn">Login</button>
-        <p>Don't have an account? <a href="<?php echo $baseURL; ?>/app/viewgister/register_view.php">Register here</a></p>
+        <p>Don't have an account? <a href="<?php echo $baseURL; ?>/register">Register here</a></p>
     </form>
 </div>
 </body>
