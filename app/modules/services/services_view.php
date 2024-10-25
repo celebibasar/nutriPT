@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nutriPT - Services</title>
-    <link rel="stylesheet" href="<?php echo $baseURL; ?>/app/modules/services/style.css">
+    <title>nutriPT - Contact</title>
+    <?php
+    $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
+    ?>
+    <link rel="stylesheet" href="<?php echo $baseURL; ?>/app/modules/contact/style.css">
 </head>
 <body>
 <header>
