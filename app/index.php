@@ -1,31 +1,34 @@
 <?php
-ob_start(); // Start output buffering
-
+ob_start(); 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Gerekli dosyaların yüklenmesi
 require_once 'config/database.php';
 require_once 'helpers/string_helper.php';
 require_once 'modules/home/HomeController.php';
 require_once 'modules/login/LoginController.php';
 require_once 'modules/register/RegisterController.php';
+require_once 'models/UserModel.php';
+require_once 'controllers/UserController.php';
+
+$database = new Database();
+$db = $database->getConnection();
+
+$userModel = new UserModel($db);
+$userController = new UserController($userModel);
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Normalize request by trimming trailing slashes
 $request = rtrim($request, '/');
 
-// For debugging, uncomment to see what $request contains
 // var_dump($request); // Debug line
 
-// Route matching
 switch ($request) {
     case '':
     case '/':
-    case '/nutriPT/app/index.php': // Homepage case when accessing through index.php
-    case '/nutriPT': // Homepage root access
-    case '/nutriPT/home': // Direct home page URL
+    case '/nutriPT/app/index.php': 
+    case '/nutriPT': 
+    case '/nutriPT/home': 
         $controller = new HomeController();
         $controller->index();
         break;
@@ -47,6 +50,16 @@ switch ($request) {
         break;
     case '/nutriPT/register':
         $controller = new RegisterController();
+        $controller->index();
+        break;
+    case '/register':
+        $userController->register();
+        $controller = new LoginController();
+        $controller->index();
+        break;
+    case '/login':
+        $userController->login();
+        $controller = new HomeController();
         $controller->index();
         break;
     default:
