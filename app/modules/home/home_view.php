@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nutriPT - Home</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/nutriPT-White-Transparent.png">
     <?php
     $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
     ?>
@@ -18,7 +19,9 @@
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <img src="/images/nutriPT-White-Transparent.png" alt="logo" style="width:50px;height:50px;">
+                <a href="<?php echo $baseURL; ?>/home">
+                <img src="/images/nutriPT-White-Transparent.png" alt="logo" style="width:50px;height:50px;" >
+                </a>
             </div>
             <ul class="nav-links">
                 <li><a href="<?php echo $baseURL; ?>/home">Home</a></li>
