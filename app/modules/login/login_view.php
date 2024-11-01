@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - nutriPT</title>
     <?php
-    $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
+    $baseURL = 'http://localhost:63342/nutriPT'; 
     ?>
     <style>
         <?php require_once "style.css"?>
@@ -31,5 +31,21 @@
         <p>Don't have an account? <a href="<?php echo $baseURL; ?>/register">Register here</a></p>
     </form>
 </div>
+
+<?php if (isset($_SESSION['login_success'])): ?>
+    <div class="toast" id="toast">Giriş başarılı!</div>
+    <?php unset($_SESSION['login_success']); ?>
+<?php endif; ?>
+
+<script>
+    const toast = document.getElementById('toast');
+    if (toast) {
+        toast.style.opacity = 1; 
+        setTimeout(() => {
+            toast.style.opacity = 0; 
+        }, 3000); 
+    }
+</script>
+
 </body>
 </html>
