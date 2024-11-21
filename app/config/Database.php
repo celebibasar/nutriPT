@@ -10,7 +10,6 @@ class Database {
         $this->conn = null;
 
         try {
-            // PDO bağlantı dizesi düzenlendi
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $exception) {
@@ -19,6 +18,13 @@ class Database {
 
         return $this->conn;
         
+    }
+
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new Database();
+        }
+        return self::$instance->connection;
     }
 }
 ?>
