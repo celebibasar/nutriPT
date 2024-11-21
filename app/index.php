@@ -5,11 +5,14 @@ ini_set('display_errors', 1);
 
 require_once 'config/database.php';
 require_once 'helpers/string_helper.php';
+require_once 'controllers/UserController.php';
 require_once 'modules/home/HomeController.php';
+require_once 'modules/profile/ProfileController.php';
+require_once 'modules/edit_profile/EditProfileController.php';
 require_once 'modules/login/LoginController.php';
 require_once 'modules/register/RegisterController.php';
 require_once 'models/UserModel.php';
-require_once 'controllers/UserController.php';
+
 
 $database = new Database();
 $db = $database->getConnection();
@@ -52,6 +55,14 @@ switch ($request) {
         $controller = new RegisterController();
         $controller->index();
         break;
+    case '/profile':
+        $controller = new ProfileController($userModel);
+        $controller->index();
+        break;
+    case '/edit-profile':
+        $controller = new EditProfileController($userModel);
+        $controller->index();
+        break;
     case '/register':
         $userController->register();
         $controller = new LoginController();
@@ -59,6 +70,11 @@ switch ($request) {
         break;
     case '/login':
         $userController->login();
+        $controller = new HomeController();
+        $controller->index();
+        break;
+    case '/logout':
+        $userController->logout();
         $controller = new HomeController();
         $controller->index();
         break;

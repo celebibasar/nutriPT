@@ -6,35 +6,19 @@
     <title>nutriPT - Home</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/nutriPT-White-Transparent.png">
     <?php
-    $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
+    $baseURL = 'http://localhost:63342/nutriPT'; 
     ?>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> <!-- Google Font -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Icons -->
     <style>
-        <?php require_once "style.css"?>
+        <?php require_once __DIR__ . '/../styles/style.css'?>
     </style>
 </head>
+
+<?php
+    include_once __DIR__ . '/../navbar.php';
+?>
 <body>
-<header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <a href="<?php echo $baseURL; ?>/home">
-                <img src="/images/nutriPT-White-Transparent.png" alt="logo" style="width:50px;height:50px;" >
-                </a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="<?php echo $baseURL; ?>/home">Home</a></li>
-                <li><a href="<?php echo $baseURL; ?>/about">About</a></li>
-                <li><a href="<?php echo $baseURL; ?>/services">Services</a></li>
-                <li><a href="<?php echo $baseURL; ?>/contact">Contact</a></li>
-            </ul>
-            <div class="nav-btn">
-                <a href="<?php echo $baseURL; ?>/login" class="btn btn-primary">Login</a>
-            </div>
-        </div>
-    </nav>
-</header>
 
 <main>
     <section class="hero">

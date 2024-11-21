@@ -8,12 +8,14 @@
     $baseURL = 'http://localhost:63342/nutriPT'; 
     ?>
     <style>
-        <?php require_once "style.css"?>
+        <?php require_once __DIR__ . '/../styles/style.css'?>
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
+<?php
+    include_once __DIR__ . '/../navbar.php';
+?>
 <body>
-<div class="container">
+<div class="forms-container">
     <h1>Login to nutriPT</h1>
     <?php if (isset($_SESSION['error'])): ?>
         <div class="error-message"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
@@ -28,7 +30,7 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit" class="btn">Login</button>
-        <p>Don't have an account? <a href="<?php echo $baseURL; ?>/register">Register here</a></p>
+        <p class="signup-link">Don't have an account? <a href="<?php echo $baseURL; ?>/register">Register here</a></p>
     </form>
 </div>
 

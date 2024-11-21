@@ -7,8 +7,13 @@
     <?php
     $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
     ?>
-    <link rel="stylesheet" href="<?php echo $baseURL; ?>/app/modules/contact/style.css">
+    <style>
+        <?php require_once __DIR__ . '/../styles/style.css'?>
+    </style>
 </head>
+<?php
+    include_once __DIR__ . '/../navbar.php';
+?>
 <body>
 <header>
     <h1>Contact Us</h1>

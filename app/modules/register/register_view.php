@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nutriPT - Register</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <?php
     $baseURL = 'http://localhost:63342/nutriPT'; // Base URL tanımı
     ?>
     <style>
-        <?php require_once "style.css"?>
+        <?php require_once __DIR__ . '/../styles/style.css'?>
     </style>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+<?php
+    include_once __DIR__ . '/../navbar.php';
+?>
 <body>
 
-<div class="container">
+<div class="forms-container">
     <h1>Create an Account</h1>
     <form action="/register" method="POST">
         <div class="input-group">
