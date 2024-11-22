@@ -82,6 +82,33 @@ class UserController {
             }
         }
     }
+
+    public function updateUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_SESSION['user']['email'];
+            $username = $_POST['username'];
+            $name = $_POST['name'];
+            $surname = $_POST['surname'];
+            $age = $_POST['age'];
+            $goal = $_POST['goal'];
+            $weight = $_POST['weight'];
+            $height = $_POST['height'];
+
+            $profileImage = null;
+            if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+                $profileImage = file_get_contents($_FILES['profile_image']['tmp_name']);
+            }
+
+            $result = $this->userModel->updateUserByEmail($email, $username, $name, $surname, $age, $goal, $weight, $height, $profileImage);
+
+            if ($result) {
+                header('Location: /profile');
+                exit();
+            } else {
+                echo "Failed to update profile.";
+            }
+        }
+    }
     
 
     public function logout() {

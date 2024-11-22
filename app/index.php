@@ -7,6 +7,7 @@ require_once 'config/database.php';
 require_once 'helpers/string_helper.php';
 require_once 'controllers/UserController.php';
 require_once 'modules/home/HomeController.php';
+require_once 'modules/nutrition_plan/NutritionPlanController.php';
 require_once 'modules/profile/ProfileController.php';
 require_once 'modules/edit_profile/EditProfileController.php';
 require_once 'modules/login/LoginController.php';
@@ -31,7 +32,8 @@ switch ($request) {
     case '/':
     case '/nutriPT/app/index.php': 
     case '/nutriPT': 
-    case '/nutriPT/home': 
+    case '/nutriPT/home':
+    case '/home': 
         $controller = new HomeController();
         $controller->index();
         break;
@@ -60,8 +62,25 @@ switch ($request) {
         $controller->index();
         break;
     case '/edit-profile':
+        $userController->updateUser();
         $controller = new EditProfileController($userModel);
         $controller->index();
+        break;
+    case '/step1':
+        $controller = new NutritionPlanController();
+        $controller->step1();
+        break;
+    case '/step2':
+        $controller = new NutritionPlanController();
+        $controller->step2();
+        break;
+    case '/step3':
+        $controller = new NutritionPlanController();
+        $controller->step3();
+        break;
+    case '/step4':
+        $controller = new NutritionPlanController();
+        $controller->step4();
         break;
     case '/register':
         $userController->register();
