@@ -8,6 +8,9 @@
     <?php
     $baseURL = 'http://localhost:63342/nutriPT'; 
     ?>
+    <?php
+    $redirectURL = isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] ? '/step1' : "$baseURL/login";
+    ?>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> <!-- Google Font -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Icons -->
     <style>
@@ -25,14 +28,7 @@
         <div class="hero-content">
             <h1>Unlock Your Best Self</h1>
             <p>Personalized Nutrition and Fitness Plans Just for You.</p>
-            <a href="
-                <?php 
-                if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn']) {
-                    echo '/step1'; // Beslenme programı oluşturma sayfasına yönlendirme
-                } else {
-                    echo '/login'; // Giriş yapmamışsa login sayfasına yönlendirme
-                }
-                ?>" class="cta-button">
+            <a href="<?php echo $redirectURL; ?>" class="cta-button">
                 Get Started
             </a>
         </div>

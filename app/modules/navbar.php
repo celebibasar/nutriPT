@@ -1,4 +1,6 @@
-
+<?php
+$userData = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+?>
     <style>
         <?php require_once __DIR__ . '/styles/style.css'?>
     </style>
@@ -24,15 +26,14 @@
                     <?php if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn']): ?>
                         <div class="user-profile">
                             <div class="profile-info">
-                                <img src="<?php echo $_SESSION['user']['profile_image'] ?? '/images/default-profile.png'; ?>" alt="Profile Image" class="profile-image">
-                                <span><?php echo htmlspecialchars($_SESSION['user']['name']) . ' ' . htmlspecialchars($_SESSION['user']['surname']); ?></span>
-                                <div class="dropdown">
-                                    <span class="arrow">&#9660;</span>
-                                    <div class="dropdown-content">
-                                        <a href="/settings">Settings</a>
-                                        <a href="/profile">Profile</a>
-                                        <a href="/logout">Logout</a>
-                                    </div>
+                                <img src="<?php echo htmlspecialchars($userData['profile_image'] ?? '/images/default-profile.png'); ?>" 
+                                    alt="Profile Image" class="profile-image">
+                                <span><?php echo htmlspecialchars($userData['name']) . ' ' . htmlspecialchars($userData['surname']); ?></span>
+                                <span class="arrow">&#9660;</span>
+                                <div class="dropdown-content">
+                                    <a href="/settings">Settings</a>
+                                    <a href="/profile">Profile</a>
+                                    <a href="/logout">Logout</a>
                                 </div>
                             </div>
                         </div>
@@ -40,6 +41,7 @@
                         <a href="<?php echo $baseURL; ?>/login" class="btn btn-primary">Login</a>
                     <?php endif; ?>
                 </div>
+
             </div>
         </nav>
     </header>

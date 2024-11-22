@@ -1,5 +1,4 @@
 <?php
-
 // Kullanıcının oturum açıp açmadığını kontrol et
 if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
     header('Location: /login');
@@ -10,14 +9,15 @@ $userData = $_SESSION['user']; // Kullanıcı bilgilerini al
 
 // Adım kontrolü
 $step = isset($_GET['step']) ? (int)$_GET['step'] : 1;
-
-// Adım ilerleme çubuğunda hangi adımda olduğumuzu belirtmek için bir dizi oluşturuyoruz
-$steps = [1, 2, 3];  // Adım sayısı arttıkça buraya ekleyebilirsiniz
+$steps = [1, 2, 3];
 
 // Form submit edildiğinde yönlendirme işlemi yapılacak
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Adımla ilgili işlem yapılabilir (örneğin, veritabanına veri kaydetme)
-    // Ardından bir sonraki adıma yönlendiriyoruz
+    // Verileri SESSION'a kaydet
+    $_SESSION['nutrition_plan']['goal'] = $_POST['goal'] ?? $_SESSION['nutrition_plan']['goal'];
+    $_SESSION['nutrition_plan']['activity_level'] = $_POST['activity_level'] ?? $_SESSION['nutrition_plan']['activity_level'];
+    $_SESSION['nutrition_plan']['daily_calories'] = $_POST['daily_calories'] ?? $_SESSION['nutrition_plan']['daily_calories'];
+
     if ($step < count($steps)) {
         $nextStep = $step + 1;
         header("Location: /step$nextStep");
@@ -36,8 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
     <title>Create Nutrition Plan - Step <?php echo $step; ?></title>
 </head>
+<?php
+    include_once __DIR__ . '/../navbar.php';
+?>
 <body>
-    <!-- Step Progress Bar -->
     <ul class="progress-bar">
         <?php foreach ($steps as $i): ?>
             <li class="<?php echo ($i < $step) ? 'completed' : ($i == $step ? 'current' : ''); ?>">
@@ -48,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="forms-container">
         <h1>Step <?php echo $step; ?>: Nutrition Plan Creation</h1>
 
-        <!-- Form Başlangıcı -->
         <form method="POST">
             <div class="input-group">
                 <h2>Select your goal</h2>
@@ -59,8 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="Maintain Weight" <?php echo ($_SESSION['nutrition_plan']['goal'] ?? '') === 'Maintain Weight' ? 'selected' : ''; ?>>Maintain Weight</option>
                 </select>
             </div>
-
-            
 
             <div class="input-group">
                 <h2>Enter your daily activity level</h2>

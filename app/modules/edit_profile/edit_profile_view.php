@@ -60,7 +60,6 @@ if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
                         <label for="age"><strong>Age:</strong></label>
                         <input type="number" id="age" name="age" value="<?php echo htmlspecialchars($userData['age'] ?? ''); ?>" class="edit-input" required>
                     </div>
-                
                     <div class="profile-item">
                         <label for="weight"><strong>Weight:</strong></label>
                         <input type="number" step="0.1" id="weight" name="weight" value="<?php echo htmlspecialchars($userData['weight'] ?? ''); ?>" class="edit-input" required>

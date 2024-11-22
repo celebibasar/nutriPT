@@ -1,20 +1,26 @@
 <?php
 
+// Kullanıcının oturum açıp açmadığını kontrol et
 if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
     header('Location: /login');
     exit();
 }
 
-$userData = $_SESSION['user']; 
+$userData = $_SESSION['user']; // Kullanıcı bilgilerini al
 
 $step = 3;
-
 $steps = [1, 2, 3];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    header("Location: /home");
-        exit();
+    // Form verilerini SESSION'a kaydet
+    $_SESSION['nutrition_plan']['height'] = $_POST['height'] ?? $_SESSION['nutrition_plan']['height'];
+    $_SESSION['nutrition_plan']['weight'] = $_POST['weight'] ?? $_SESSION['nutrition_plan']['weight'];
+    $_SESSION['nutrition_plan']['age'] = $_POST['age'] ?? $_SESSION['nutrition_plan']['age'];
+    $_SESSION['nutrition_plan']['activity_level'] = $_POST['activity_level'] ?? $_SESSION['nutrition_plan']['activity_level'];
+
+    // Son adımda "finish" sayfasına yönlendir
+    header("Location: /finish");
+    exit();
 }
 ?>
 
@@ -28,6 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
     <title>Step 3: Personal Details</title>
 </head>
+<?php
+    include_once __DIR__ . '/../navbar.php';
+?>
 <body>
     <!-- Step Progress Bar -->
     <ul class="progress-bar">
@@ -37,13 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </li>
         <?php endforeach; ?>
     </ul>
+
     <div class="forms-container">
         <h1>Step 3: Personal Details and Goal Finalization</h1>
 
         <!-- Step 3 Form -->
         <form method="POST">
             <div class="input-group">
-                <h2>Step 3: Personal Data & Goal Refinement</h2>
+                <h2>Personal Data & Goal Refinement</h2>
 
                 <label for="height">Height (cm):</label>
                 <input type="number" name="height" id="height" value="<?php echo htmlspecialchars($userData['height'] ?? ''); ?>" min="100" max="250" required>
@@ -56,11 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <label for="activity_level">Activity Level:</label>
                 <select name="activity_level" id="activity_level" required>
-                    <option value="Sedentary" <?php echo ($userData['activity_level'] ?? '') === 'Sedentary' ? 'selected' : ''; ?>>Sedentary (Little or no exercise)</option>
-                    <option value="Light" <?php echo ($userData['activity_level'] ?? '') === 'Light' ? 'selected' : ''; ?>>Lightly active (Light exercise/sports 1-3 days/week)</option>
-                    <option value="Moderate" <?php echo ($userData['activity_level'] ?? '') === 'Moderate' ? 'selected' : ''; ?>>Moderately active (Moderate exercise/sports 3-5 days/week)</option>
-                    <option value="Active" <?php echo ($userData['activity_level'] ?? '') === 'Active' ? 'selected' : ''; ?>>Very active (Hard exercise/sports 6-7 days/week)</option>
-                    <option value="Super Active" <?php echo ($userData['activity_level'] ?? '') === 'Super Active' ? 'selected' : ''; ?>>Super active (Very hard exercise/sports and physical job)</option>
+                    <option value="Sedentary" <?php echo ($_SESSION['nutrition_plan']['activity_level'] ?? '') === 'Sedentary' ? 'selected' : ''; ?>>Sedentary (Little or no exercise)</option>
+                    <option value="Light" <?php echo ($_SESSION['nutrition_plan']['activity_level'] ?? '') === 'Light' ? 'selected' : ''; ?>>Lightly active (Light exercise/sports 1-3 days/week)</option>
+                    <option value="Moderate" <?php echo ($_SESSION['nutrition_plan']['activity_level'] ?? '') === 'Moderate' ? 'selected' : ''; ?>>Moderately active (Moderate exercise/sports 3-5 days/week)</option>
+                    <option value="Active" <?php echo ($_SESSION['nutrition_plan']['activity_level'] ?? '') === 'Active' ? 'selected' : ''; ?>>Very active (Hard exercise/sports 6-7 days/week)</option>
+                    <option value="Super Active" <?php echo ($_SESSION['nutrition_plan']['activity_level'] ?? '') === 'Super Active' ? 'selected' : ''; ?>>Super active (Very hard exercise/sports and physical job)</option>
                 </select>
             </div>
 

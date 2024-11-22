@@ -6,11 +6,11 @@ class UserModel {
         $this->db = $db;
     }
 
-    public function register($username, $name, $surname, $email, $age, $goal, $weight, $height, $password) {
+    public function register($username, $name, $surname, $email, $age, $weight, $height, $password) {
         try {
             $stmt = $this->db->prepare("
-                INSERT INTO users (username, name, surname, email, age, goal, weight, height, password) 
-                VALUES (:username, :name, :surname, :email, :age, :goal, :weight, :height, :password)
+                INSERT INTO users (username, name, surname, email, age, weight, height, password) 
+                VALUES (:username, :name, :surname, :email, :age, :weight, :height, :password)
             ");
             return $stmt->execute([
                 ':username' => htmlspecialchars($username),
@@ -18,7 +18,6 @@ class UserModel {
                 ':surname' => htmlspecialchars($surname),
                 ':email' => filter_var($email, FILTER_SANITIZE_EMAIL),
                 ':age' => intval($age),
-                ':goal' => htmlspecialchars($goal),
                 ':weight' => floatval($weight),
                 ':height' => floatval($height),
                 ':password' => password_hash($password, PASSWORD_BCRYPT),
@@ -55,12 +54,12 @@ class UserModel {
             return false;
         }
     }
-    public function updateUserByEmail($email, $username, $name, $surname, $age, $goal, $weight, $height, $profileImage) {
+    public function updateUserByEmail($email, $username, $name, $surname, $age, $weight, $height, $profileImage) {
         // SQL sorgusunu hazırlayın
         $stmt = $this->db->prepare("
             UPDATE users 
             SET username = :username, name = :name, surname = :surname, 
-                age = :age, goal = :goal, weight = :weight, height = :height, 
+                age = :age, weight = :weight, height = :height, 
                 profile_image = :profile_image
             WHERE email = :email
         ");
@@ -70,7 +69,6 @@ class UserModel {
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':surname', $surname);
         $stmt->bindValue(':age', $age, PDO::PARAM_INT);
-        $stmt->bindValue(':goal', $goal);
         $stmt->bindValue(':weight', $weight, PDO::PARAM_STR);
         $stmt->bindValue(':height', $height, PDO::PARAM_STR);
         $stmt->bindValue(':profile_image', $profileImage, PDO::PARAM_LOB);
