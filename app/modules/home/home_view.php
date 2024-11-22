@@ -25,7 +25,16 @@
         <div class="hero-content">
             <h1>Unlock Your Best Self</h1>
             <p>Personalized Nutrition and Fitness Plans Just for You.</p>
-            <a href="<?php echo $baseURL; ?>/services" class="cta-button">Get Started</a>
+            <a href="
+                <?php 
+                if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn']) {
+                    echo '/step1'; // Beslenme programı oluşturma sayfasına yönlendirme
+                } else {
+                    echo '/login'; // Giriş yapmamışsa login sayfasına yönlendirme
+                }
+                ?>" class="cta-button">
+                Get Started
+            </a>
         </div>
     </section>
 

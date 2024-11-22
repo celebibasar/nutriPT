@@ -507,6 +507,12 @@ footer .social-links a:hover {
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
+.forms-container .actions{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
 
 .input-group {
     margin-bottom: 20px;
@@ -599,4 +605,140 @@ footer .social-links a:hover {
 
 .toast.show {
     opacity: 1;
+}
+
+/* Progress Bar */
+
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 0;
+    list-style: none;
+}
+.progress-bar li {
+    position: relative;
+    width: 20%;
+    text-align: center;
+    font-weight: bold;
+}
+.progress-bar li:before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.progress-bar li.completed:before {
+    background-color: #4CAF50;
+}
+.progress-bar li.current:before {
+    background-color: #FF9800;
+}
+.progress-bar li span {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .navbar {
+        padding: 10px;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .nav-btn {
+        display: none;
+    }
+
+    .profile-card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-info {
+        text-align: center;
+    }
+
+    .profile-info .profile-item {
+        text-align: center;
+    }
+
+    .profile-details {
+        flex-direction: column;
+    }
+
+    .profile-item {
+        flex: 1 1 100%;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .profile-actions .btn {
+        margin: 10px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .feature-item h3 {
+        font-size: 1.2rem;
+    }
+
+    .feature-item p {
+        font-size: 0.9rem;
+    }
+
+    .forms-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    .input-group input,
+    .input-group select {
+        padding: 10px;
+    }
+
+    .btn {
+        padding: 10px;
+    }
+
+    .progress-bar li {
+        font-size: 12px;
+    }
 }

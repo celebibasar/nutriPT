@@ -1,11 +1,8 @@
 <?php
-
 if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
     header('Location: /login');
     exit();
 }
-
-$userData = $_SESSION['user'];
 ?>
 
 <!DOCTYPE html>
@@ -43,9 +40,6 @@ $userData = $_SESSION['user'];
                 </div>
                 <div class="profile-item">
                     <p><strong>Age:</strong> <?php echo htmlspecialchars($userData['age'] ?? '-'); ?></p>
-                </div>
-                <div class="profile-item">
-                    <p><strong>Goal:</strong> <?php echo htmlspecialchars($userData['goal'] ?? '-'); ?></p>
                 </div>
                 <div class="profile-item">
                     <p><strong>Weight:</strong> <?php echo htmlspecialchars($userData['weight'] ?? '-'); ?> kg</p>

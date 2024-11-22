@@ -7,13 +7,16 @@ class ProfileController {
     }
 
     public function index() {
-        if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
-            $user = $_SESSION['user'];
-            include_once __DIR__ . '/profile_view.php';
-        } else {
+        $email = $_SESSION['user']['email'];
+
+        $userData = $this->userModel->getUserByEmail($email);
+
+        if (!$userData) {
             header('Location: /login');
             exit();
         }
+
+        require_once __DIR__ . '/profile_view.php';
     }
 }
 ?>

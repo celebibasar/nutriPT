@@ -39,15 +39,7 @@
             <label for="age">Age</label>
             <input type="number" id="age" name="age" required min="1">
         </div>
-        <div class="input-group">
-            <label for="goal">Goal</label>
-            <select id="goal" name="goal" required>
-                <option value="" disabled selected>Select your goal</option>
-                <option value="Lose Weight">Lose Weight</option>
-                <option value="Gain Muscle">Gain Muscle</option>
-                <option value="Maintain Weight">Maintain Weight</option>
-            </select>
-        </div>
+        
         <div class="input-group">
             <label for="weight">Weight (kg)</label>
             <input type="text" id="weight" name="weight" required min="1" pattern="^\d+([,.]\d+)?$" title="Please enter a valid weight using . or ,">
