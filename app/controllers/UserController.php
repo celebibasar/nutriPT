@@ -13,7 +13,6 @@ class UserController {
             $name = $_POST['name'];
             $surname = $_POST['surname'];
             $email = $_POST['email'];
-            $age = $_POST['age'];
             $goal = $_POST['goal'];
             $weight = str_replace(',', '.', $_POST['weight']); // Virgülleri noktaya çevirin
             $height = $_POST['height'];
@@ -23,14 +22,14 @@ class UserController {
             // Parolalar eşleşiyor mu?
             if ($password !== $confirmPassword) {
                 $_SESSION['error'] = "Passwords do not match!";
-                header('Location: /register');
+                header('Location: /nutriPT/register');
                 return;
             }
 
             // Email zaten var mı?
             if ($this->userModel->isEmailExist($email)) {
                 $_SESSION['error'] = "Email already exists!";
-                header('Location: /register');
+                header('Location: /nutriPT/register');
                 return;
             }
 
@@ -40,7 +39,7 @@ class UserController {
                 header('Location: /login');
             } else {
                 $_SESSION['error'] = "Registration failed!";
-                header('Location: /register');
+                header('Location: /nutriPT/register');
             }
         }
     }
@@ -64,7 +63,6 @@ class UserController {
                     'username' => $user['username'], // Kullanıcı adı ekleniyor
                     'email' => $user['email'], // E-posta ekleniyor
                     'age' => $user['age'], // Yaş ekleniyor
-                    'goal' => $user['goal'], // Hedef ekleniyor
                     'weight' => $user['weight'], // Kilo ekleniyor
                     'height' => $user['height'], // Boy ekleniyor
                     'profile_image' => $user['profile_image'] // Profil resmi
@@ -77,7 +75,7 @@ class UserController {
             } else {
                 // Hatalı giriş durumunda
                 $_SESSION['error'] = "Invalid email or password!";
-                header('Location: /login');
+                header('Location: /nutriPT/login');
                 exit();
             }
         }
@@ -90,7 +88,6 @@ class UserController {
             $name = $_POST['name'];
             $surname = $_POST['surname'];
             $age = $_POST['age'];
-            $goal = $_POST['goal'];
             $weight = $_POST['weight'];
             $height = $_POST['height'];
 
@@ -99,7 +96,7 @@ class UserController {
                 $profileImage = file_get_contents($_FILES['profile_image']['tmp_name']);
             }
 
-            $result = $this->userModel->updateUserByEmail($email, $username, $name, $surname, $age, $goal, $weight, $height, $profileImage);
+            $result = $this->userModel->updateUserByEmail($email, $username, $name, $surname, $age, $weight, $height, $profileImage);
 
             if ($result) {
                 header('Location: /profile');

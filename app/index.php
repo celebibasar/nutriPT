@@ -6,19 +6,21 @@ ini_set('display_errors', 1);
 require_once 'config/database.php';
 require_once 'helpers/string_helper.php';
 require_once 'controllers/UserController.php';
+require_once 'controllers/NutritionPlanController.php';
 require_once 'modules/home/HomeController.php';
-require_once 'modules/nutrition_plan/NutritionPlanController.php';
 require_once 'modules/profile/ProfileController.php';
 require_once 'modules/edit_profile/EditProfileController.php';
 require_once 'modules/login/LoginController.php';
 require_once 'modules/register/RegisterController.php';
 require_once 'models/UserModel.php';
+require_once 'models/NutritionPlanModel.php';
 
 
 $database = new Database();
 $db = $database->getConnection();
 
 $userModel = new UserModel($db);
+$nutritionPlanModel = new NutritionPlanModel($db);
 $userController = new UserController($userModel);
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -34,19 +36,19 @@ switch ($request) {
     case '/nutriPT': 
     case '/nutriPT/home':
     case '/home': 
-        $controller = new HomeController();
+        $controller = new HomeController($userModel);
         $controller->index();
         break;
     case '/nutriPT/about':
-        $controller = new HomeController();
+        $controller = new HomeController($userModel);
         $controller->about();
         break;
     case '/nutriPT/services':
-        $controller = new HomeController();
+        $controller = new HomeController($userModel);
         $controller->services();
         break;
     case '/nutriPT/contact':
-        $controller = new HomeController();
+        $controller = new HomeController($userModel);
         $controller->contact();
         break;
     case '/nutriPT/login':
@@ -67,20 +69,20 @@ switch ($request) {
         $controller->index();
         break;
     case '/step1':
-        $controller = new NutritionPlanController();
+        $controller = new NutritionPlanController($nutritionPlanModel, $userModel);
         $controller->step1();
         break;
     case '/step2':
-        $controller = new NutritionPlanController();
+        $controller = new NutritionPlanController($nutritionPlanModel, $userModel);
         $controller->step2();
         break;
     case '/step3':
-        $controller = new NutritionPlanController();
+        $controller = new NutritionPlanController($nutritionPlanModel, $userModel);
         $controller->step3();
         break;
-    case '/step4':
-        $controller = new NutritionPlanController();
-        $controller->step4();
+    case '/finish':
+        $controller = new NutritionPlanController($nutritionPlanModel, $userModel);
+        $controller->finish();
         break;
     case '/register':
         $userController->register();
@@ -89,12 +91,12 @@ switch ($request) {
         break;
     case '/login':
         $userController->login();
-        $controller = new HomeController();
+        $controller = new HomeController($userModel);
         $controller->index();
         break;
     case '/logout':
         $userController->logout();
-        $controller = new HomeController();
+        $controller = new HomeController($userModel);
         $controller->index();
         break;
     default:
