@@ -10,6 +10,38 @@
     ?>
     <?php
     $redirectURL = isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] ? '/step1' : "$baseURL/login";
+
+    $email = $_SESSION['email'] ?? null;
+
+    $userData = $this->userModel->getUserByEmail($email);
+
+
+    $userId = null;
+    if($userData == null)
+    {
+        $userId = null;
+    }else{
+        $userId = $userData['user_id'];
+    };
+    $hasMealPlan = false; 
+
+    if ($userId) {
+        $db = new PDO("mysql:host=localhost;dbname=nutriPT;charset=utf8", "root", "1234567b");
+
+        $query = $db->prepare("SELECT COUNT(*) FROM user_meal_plans WHERE user_id = :user_id");
+        $query->execute(['user_id' => $userId]);
+
+        // Sonucu al
+        $planCount = $query->fetchColumn();
+        if ($planCount > 0) {
+            $hasMealPlan = true;
+        }
+    }
+
+    // Kullanıcı planı varsa yönlendirilecek URL
+    if ($hasMealPlan) {
+        $redirectURL = "/meal_plan_calendar";
+    }
     ?>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> <!-- Google Font -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Icons -->
@@ -33,6 +65,33 @@
             </a>
         </div>
     </section>
+
+    <section class="categories">
+        <div class="container">
+            <h2>Explore Our Meal Categories</h2>
+            <div class="categories-grid">
+                <div class="category-item">
+                    <a href="/meals/vegan" class="category-link">
+                        <img src="/../images/vegan-category.jpg" alt="Vegan Meals">
+                        <h3>Vegan</h3>
+                    </a>
+                </div>
+                <div class="category-item">
+                    <a href="/meals/diet" class="category-link">
+                        <img src="/../images/diet-category.jpg" alt="Diet Meals">
+                        <h3>Diet</h3>
+                    </a>
+                </div>
+                <div class="category-item">
+                    <a href="/meals/low-carb" class="category-link">
+                        <img src="/../images/low-carb.jpg" alt="LowCarb Meals">
+                        <h3>Low Carb</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <section class="features">
         <div class="container">

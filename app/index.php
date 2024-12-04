@@ -68,6 +68,18 @@ switch ($request) {
         $controller = new EditProfileController($userModel);
         $controller->index();
         break;
+    case '/meals/vegan':
+        $controller = new HomeController($userModel);
+        $controller->vegan();
+        break;
+    case '/meals/diet':
+        $controller = new HomeController($userModel);
+        $controller->diet();
+        break;
+    case '/meals/low-carb':
+        $controller = new HomeController($userModel);
+        $controller->lowCarb();
+        break;
     case '/step1':
         $controller = new NutritionPlanController($nutritionPlanModel, $userModel);
         $controller->step1();
@@ -83,6 +95,10 @@ switch ($request) {
     case '/finish':
         $controller = new NutritionPlanController($nutritionPlanModel, $userModel);
         $controller->finish();
+        break;
+    case '/meal_plan_calendar':
+        $controller = new NutritionPlanController($nutritionPlanModel, $userModel);
+        $controller->mealPlanCalendar();
         break;
     case '/register':
         $userController->register();
