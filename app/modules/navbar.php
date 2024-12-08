@@ -8,20 +8,30 @@ $userData = isset($_SESSION['user']) ? $_SESSION['user'] : null;
         <nav class="navbar">
             <div class="container">
                 <div class="logo">
-                    <?php
-                        $baseURL = 'http://localhost:63342/nutriPT';?>
+                    <?php $baseURL = 'http://localhost:63342/nutriPT'; ?>
                     <a href="<?php echo $baseURL; ?>/home">
-                        <img src="/images/nutriPT-White-Transparent.png" alt="logo" style="width:50px;height:50px;">
+                        <img src="/images/nutriPT-White-Transparent.png" alt="logo">
                     </a>
                 </div>
-                <ul class="nav-links">
+                <ul class="nav-links" id="nav-links">
                     <li><a href="<?php echo $baseURL; ?>/home">Home</a></li>
                     <li><a href="<?php echo $baseURL; ?>/about">About</a></li>
                     <li><a href="<?php echo $baseURL; ?>/services">Services</a></li>
                     <li><a href="<?php echo $baseURL; ?>/contact">Contact</a></li>
-                </ul>
 
-                <!-- Kullanıcı giriş yapmış mı kontrolü -->
+                    <!-- Kullanıcı giriş yapmış mı kontrolü -->
+                    <?php if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn']): ?>
+                        <li><a href="/profile" class="li-btn">Profile</a></li>
+                        <li><a href="/logout" class="li-btn">Logout</a></li>
+                    <?php else: ?>
+                        <li><a href="<?php echo $baseURL; ?>/login" class="btn btn-primary li-btn">Login</a></li>
+                    <?php endif; ?>
+                </ul>
+                <div class="burger" id="burger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
                 <div class="nav-btn">
                     <?php if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn']): ?>
                         <div class="user-profile">
@@ -41,9 +51,17 @@ $userData = isset($_SESSION['user']) ? $_SESSION['user'] : null;
                         <a href="<?php echo $baseURL; ?>/login" class="btn btn-primary">Login</a>
                     <?php endif; ?>
                 </div>
-
             </div>
         </nav>
     </header>
+
+    <script>
+        const burger = document.getElementById('burger');
+        const navLinks = document.getElementById('nav-links');
+
+        burger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
 
 

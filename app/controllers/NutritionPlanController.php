@@ -24,50 +24,65 @@ class NutritionPlanController {
     public function step3() {
         require_once __DIR__ . '/../modules/nutrition_plan/step3_view.php'; // Üçüncü adımın view dosyasına yönlendir
     }
+    public function mealPlanCalendar() {
+        require_once __DIR__ . '/../modules/nutrition_plan/meal_plan_calendar.php'; // Beslenme planı takviminin view dosyasına yönlendir
+    }
     
-
-        public function finish()
-        {
-            // Kullanıcının oturum açıp açmadığını kontrol et
-            if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
-                header('Location: /login');
-                exit();
-            }
-        
-            $email = $_SESSION['email'] ?? null;
-            if (!$email) {
-                die('Oturumda e-posta bulunamadı.');
-            }
-
-            $userData = $this->userModel->getUserByEmail($email);
-            if (!$userData || !isset($userData['user_id'])) {
-                die('Kullanıcı bulunamadı.');
-            }
-            $userId = $userData['user_id'];
-        
-            // SESSION'dan nutrition_plan verilerini al
-            $goal = $_SESSION['nutrition_plan']['goal'] ?? null;
-            $activityLevel = $_SESSION['nutrition_plan']['activity_level'] ?? null;
-            $dailyCalories = $_SESSION['nutrition_plan']['daily_calories'] ?? null;
-            $vegetarian = $_SESSION['nutrition_plan']['vegetarian'] ?? null;
-            $mealPreference = $_SESSION['nutrition_plan']['meal_preference'] ?? null;
-            $mealCount = $_SESSION['nutrition_plan']['meal_count'] ?? null;
-        
-            // Tüm verilerin doldurulmuş olup olmadığını kontrol et
-            if (!$goal || !$activityLevel || !$dailyCalories || !$vegetarian || !$mealPreference || !$mealCount) {
-                echo '<a>' . $goal . ' ' . $activityLevel . ' ' . $dailyCalories . ' ' . $vegetarian . ' ' . $mealPreference . ' ' . $mealCount . '</a>';
-                die('Tüm alanların doldurulması gerekiyor.');
-            }
-        
-            // Verileri Model'e aktar
-            $this->nutritionPlanModel->saveNutritionPlan($userId, $goal, $activityLevel, $dailyCalories, $vegetarian, $mealPreference, $mealCount);
-
-            unset($_SESSION['nutrition_plan']);
-        
-            header('Location: /home');
+    // Beslenme Planını Kaydetme
+    public function finish()
+    {
+        // Kullanıcının oturum açıp açmadığını kontrol et
+        if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
+            header('Location: /login');
             exit();
         }
-        
+
+        $email = $_SESSION['email'] ?? null;
+        if (!$email) {
+            die('Oturumda e-posta bulunamadı.');
+        }
+
+        $userData = $this->userModel->getUserByEmail($email);
+        if (!$userData || !isset($userData['user_id'])) {
+            die('Kullanıcı bulunamadı.');
+        }
+        $userId = $userData['user_id'];
+
+        $nutritionPlan = $_SESSION['nutrition_plan'] ?? null;
+
+        if (!$nutritionPlan) {
+            die('Beslenme planı verileri eksik.');
+        }
+
+        $goal = $nutritionPlan['goal'] ?? null;
+        $activityLevel = $nutritionPlan['activity_level'] ?? null;
+        $dailyCalories = $nutritionPlan['daily_calories'] ?? null;
+        $vegetarian = $nutritionPlan['vegetarian'] ?? null;
+        $mealPreference = $nutritionPlan['meal_preference'] ?? null;
+        $mealCount = $nutritionPlan['meal_count'] ?? null;
+
+        // Tüm verilerin doldurulmuş olup olmadığını kontrol et
+        $missingFields = [];
+        if (!$goal) $missingFields[] = 'Goal';
+        if (!$activityLevel) $missingFields[] = 'Activity Level';
+        if (!$dailyCalories) $missingFields[] = 'Daily Calories';
+        if (!$vegetarian) $missingFields[] = 'Vegetarian';
+        if (!$mealPreference) $missingFields[] = 'Meal Preference';
+        if (!$mealCount) $missingFields[] = 'Meal Count';
+
+        if (!empty($missingFields)) {
+            $fields = implode(', ', $missingFields);
+            die('Eksik alanlar: ' . $fields . '. Lütfen tüm alanları doldurun.');
+        }
+
+        $this->nutritionPlanModel->saveNutritionPlan($userId, $goal, $activityLevel, $dailyCalories, $vegetarian, $mealPreference, $mealCount);
+
+        unset($_SESSION['nutrition_plan']);
+
+        header('Location: /meal_plan_calendar');
+        exit();
+    }
+
 
 }
 ?>

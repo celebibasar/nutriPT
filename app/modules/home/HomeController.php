@@ -35,5 +35,17 @@ class HomeController {
     {
         require_once __DIR__ . '/../contact/contact_view.php';
     }
+    public function vegan(): void
+    {
+        require_once __DIR__ . '/../meals/vegan_meals.php';
+    }
+    public function diet(): void
+    {
+        require_once __DIR__ . '/../meals/diet_meals.php';
+    }
+    public function lowCarb(): void
+    {
+        require_once __DIR__ . '/../meals/lowCarb_meals.php';
+    }
 }
 ?>
