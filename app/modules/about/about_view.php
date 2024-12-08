@@ -58,18 +58,23 @@
             <div class="team-grid">
                 <div class="team-member">
                     <img src="/images/team-member1.jpg" alt="Team Member 1">
-                    <h3>Jane Doe</h3>
+                    <h3>Başar Çelebi</h3>
                     <p>Certified Nutritionist</p>
                 </div>
                 <div class="team-member">
                     <img src="/images/team-member2.jpg" alt="Team Member 2">
-                    <h3>John Smith</h3>
+                    <h3>Umut Aytuğ Semerci</h3>
                     <p>Personal Trainer</p>
                 </div>
                 <div class="team-member">
                     <img src="/images/team-member3.jpg" alt="Team Member 3">
-                    <h3>Emma Brown</h3>
+                    <h3>Emircan Çapkan</h3>
                     <p>Health Coach</p>
+                </div>
+                <div class="team-member">
+                    <img src="/images/team-member4.jpg" alt="Team Member 4">
+                    <h3>Göktuğ Ateş</h3>
+                    <p>Coach Assistant</p>
                 </div>
             </div>
         </div>

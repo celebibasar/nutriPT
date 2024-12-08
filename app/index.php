@@ -7,6 +7,7 @@ require_once 'config/database.php';
 require_once 'helpers/string_helper.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/NutritionPlanController.php';
+require_once 'controllers/MealController.php';
 require_once 'modules/home/HomeController.php';
 require_once 'modules/profile/ProfileController.php';
 require_once 'modules/edit_profile/EditProfileController.php';
@@ -14,6 +15,7 @@ require_once 'modules/login/LoginController.php';
 require_once 'modules/register/RegisterController.php';
 require_once 'models/UserModel.php';
 require_once 'models/NutritionPlanModel.php';
+require_once 'models/MealModel.php';
 
 
 $database = new Database();
@@ -22,6 +24,7 @@ $db = $database->getConnection();
 $userModel = new UserModel($db);
 $nutritionPlanModel = new NutritionPlanModel($db);
 $userController = new UserController($userModel);
+$mealModel = new MealModel($db);
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -69,16 +72,18 @@ switch ($request) {
         $controller->index();
         break;
     case '/meals/vegan':
-        $controller = new HomeController($userModel);
-        $controller->vegan();
+        $controller = new MealController($mealModel);
+        $controller->showMeals('vegan');
         break;
+
     case '/meals/diet':
-        $controller = new HomeController($userModel);
-        $controller->diet();
+        $controller = new MealController($mealModel);
+        $controller->showMeals('diet');
         break;
+
     case '/meals/low-carb':
-        $controller = new HomeController($userModel);
-        $controller->lowCarb();
+        $controller = new MealController($mealModel);
+        $controller->showMeals('lowCarb');
         break;
     case '/step1':
         $controller = new NutritionPlanController($nutritionPlanModel, $userModel);

@@ -1,103 +1,5 @@
 <?php
-// Örnek veri, veritabanından dinamik olarak çekilebilir.
-$low_carb_meals = [
-    [
-        'name' => 'Grilled Chicken with Asparagus',
-        'image' => '/images/grilled-chicken-asparagus.jpg',
-        'description' => 'Grilled chicken breast served with fresh asparagus and a lemon dressing.',
-        'carbs' => '5g',
-        'protein' => '35g',
-        'fat' => '10g'
-    ],
-    [
-        'name' => 'Zucchini Noodles with Pesto',
-        'image' => '/images/zucchini-noodles-pesto.jpg',
-        'description' => 'Zucchini noodles tossed with a delicious homemade pesto sauce.',
-        'carbs' => '8g',
-        'protein' => '6g',
-        'fat' => '18g'
-    ],
-    [
-        'name' => 'Eggplant Parmesan',
-        'image' => '/images/eggplant-parmesan.jpg',
-        'description' => 'Baked eggplant with low-fat mozzarella cheese and marinara sauce.',
-        'carbs' => '12g',
-        'protein' => '18g',
-        'fat' => '14g'
-    ],
-    [
-        'name' => 'Salmon with Roasted Vegetables',
-        'image' => '/images/salmon-roasted-vegetables.jpg',
-        'description' => 'Baked salmon fillet served with a side of roasted low-carb vegetables.',
-        'carbs' => '6g',
-        'protein' => '28g',
-        'fat' => '16g'
-    ],
-    [
-        'name' => 'Avocado Chicken Salad',
-        'image' => '/images/avocado-chicken-salad.jpg',
-        'description' => 'Grilled chicken on a bed of greens with avocado, cucumbers, and a low-carb dressing.',
-        'carbs' => '7g',
-        'protein' => '30g',
-        'fat' => '20g'
-    ],
-    [
-        'name' => 'Cauliflower Rice Stir Fry',
-        'image' => '/images/cauliflower-rice-stirfry.jpg',
-        'description' => 'Low-carb cauliflower rice stir-fried with vegetables and a touch of soy sauce.',
-        'carbs' => '10g',
-        'protein' => '5g',
-        'fat' => '8g'
-    ],
-    [
-        'name' => 'Beef and Broccoli',
-        'image' => '/images/beef-broccoli.jpg',
-        'description' => 'Sautéed beef strips with broccoli in a low-carb soy sauce.',
-        'carbs' => '9g',
-        'protein' => '26g',
-        'fat' => '14g'
-    ],
-    [
-        'name' => 'Grilled Shrimp with Spinach',
-        'image' => '/images/grilled-shrimp-spinach.jpg',
-        'description' => 'Grilled shrimp on a bed of sautéed spinach with garlic and olive oil.',
-        'carbs' => '4g',
-        'protein' => '25g',
-        'fat' => '7g'
-    ],
-    [
-        'name' => 'Chicken Lettuce Wraps',
-        'image' => '/images/chicken-lettuce-wraps.jpg',
-        'description' => 'Grilled chicken wrapped in fresh lettuce leaves with a low-carb dressing.',
-        'carbs' => '5g',
-        'protein' => '30g',
-        'fat' => '9g'
-    ],
-    [
-        'name' => 'Cabbage Stir Fry with Tofu',
-        'image' => '/images/cabbage-stirfry-tofu.jpg',
-        'description' => 'Stir-fried cabbage with tofu and a savory low-carb sauce.',
-        'carbs' => '10g',
-        'protein' => '15g',
-        'fat' => '12g'
-    ],
-    [
-        'name' => 'Pork Tenderloin with Brussel Sprouts',
-        'image' => '/images/pork-tenderloin-brussel-sprouts.jpg',
-        'description' => 'Roast pork tenderloin served with a side of sautéed Brussel sprouts.',
-        'carbs' => '6g',
-        'protein' => '35g',
-        'fat' => '18g'
-    ],
-    [
-        'name' => 'Chicken Parmesan (Low-Carb)',
-        'image' => '/images/low-carb-chicken-parmesan.jpg',
-        'description' => 'Chicken breast topped with marinara sauce and parmesan cheese, served with a side of low-carb zucchini noodles.',
-        'carbs' => '10g',
-        'protein' => '35g',
-        'fat' => '20g'
-    ]
-];
+$lowCarbMeals = $this->mealModel->getMealsByType('lowCarb');
 ?>
 
 <!DOCTYPE html>
@@ -139,23 +41,26 @@ $low_carb_meals = [
     <!-- Low Carb Meal List -->
     <section class="meal-list">
         <div class="container">
-            <h2>Low Carb Meal Options</h2>
-            <div class="meal-grid">
-                <?php foreach ($low_carb_meals as $meal): ?>
-                    <div class="meal-card">
-                        <img src="<?= $meal['image'] ?>" alt="<?= $meal['name'] ?>">
-                        <div class="meal-info">
-                            <h3><?= $meal['name'] ?></h3>
-                            <p><?= $meal['description'] ?></p>
-                            <div class="meal-nutrition">
-                                <p><strong>Carbs:</strong> <?= $meal['carbs'] ?></p>
-                                <p><strong>Protein:</strong> <?= $meal['protein'] ?></p>
-                                <p><strong>Fat:</strong> <?= $meal['fat'] ?></p>
-                            </div>
+            <h1>Low-Carb Meals</h1>
+            <?php if (!empty($lowCarbMeals)): ?>
+                <div class="meal-grid">
+                    <?php foreach ($lowCarbMeals as $meal): ?>
+                        <div class="meal-item">
+                            <img src="<?php echo $meal['image_url']; ?>" alt="<?php echo $meal['name']; ?>">
+                            <h3><?php echo $meal['name']; ?></h3>
+                            <p><?php echo $meal['description']; ?></p>
+                            <ul>
+                                <li><strong>Calories:</strong> <?php echo $meal['calories']; ?> kcal</li>
+                                <li><strong>Protein:</strong> <?php echo $meal['protein']; ?> g</li>
+                                <li><strong>Carbs:</strong> <?php echo $meal['carbs']; ?> g</li>
+                                <li><strong>Fat:</strong> <?php echo $meal['fat']; ?> g</li>
+                            </ul>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p>No low carb meals found.</p>
+            <?php endif; ?>
         </div>
     </section>
 </main>
