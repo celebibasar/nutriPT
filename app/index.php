@@ -8,6 +8,7 @@ require_once 'helpers/string_helper.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/NutritionPlanController.php';
 require_once 'controllers/MealController.php';
+require_once 'controllers/AdminController.php';
 require_once 'modules/home/HomeController.php';
 require_once 'modules/profile/ProfileController.php';
 require_once 'modules/edit_profile/EditProfileController.php';
@@ -61,6 +62,46 @@ switch ($request) {
     case '/nutriPT/register':
         $controller = new RegisterController();
         $controller->index();
+        break;
+    case '/admin':
+        $controller = new HomeController($userModel);
+        $controller->admin();
+        break;
+    case '/nutriPT/admin/users_list':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->usersList();
+        break;
+    case '/nutriPT/admin/meals_list':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->mealsList();
+        break;
+    case '/nutriPT/admin/edit_meal':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->editMeal();
+        break;
+    case '/nutriPT/admin/remove_meal':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->removeMeal();
+        break;
+    case '/nutriPT/admin/add_meal':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->addMeal();
+        break;
+    case '/nutriPT/admin/users_list':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->usersList();
+        break;
+    case '/nutriPT/admin/edit_user':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->editUser();
+        break;
+    case '/nutriPT/admin/remove_user':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->removeUser();
+        break;
+    case '/nutriPT/admin/add_user':
+        $controller = new AdminController($mealModel, $userModel);
+        $controller->addUser();
         break;
     case '/profile':
         $controller = new ProfileController($userModel);

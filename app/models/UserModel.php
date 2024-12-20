@@ -6,20 +6,17 @@ class UserModel {
         $this->db = $db;
     }
 
-    public function register($username, $name, $surname, $email, $age, $weight, $height, $password) {
+    public function register($username, $name, $surname, $email, $password) {
         try {
             $stmt = $this->db->prepare("
-                INSERT INTO users (username, name, surname, email, age, weight, height, password) 
-                VALUES (:username, :name, :surname, :email, :age, :weight, :height, :password)
+                INSERT INTO users (username, name, surname, email, password) 
+                VALUES (:username, :name, :surname, :email, :password)
             ");
             return $stmt->execute([
                 ':username' => htmlspecialchars($username),
                 ':name' => htmlspecialchars($name),
                 ':surname' => htmlspecialchars($surname),
                 ':email' => filter_var($email, FILTER_SANITIZE_EMAIL),
-                ':age' => intval($age),
-                ':weight' => floatval($weight),
-                ':height' => floatval($height),
                 ':password' => password_hash($password, PASSWORD_BCRYPT),
             ]);
         } catch (PDOException $e) {
@@ -43,6 +40,7 @@ class UserModel {
                     'name' => htmlspecialchars($user['name']),
                     'surname' => htmlspecialchars($user['surname']),
                     'email' => htmlspecialchars($user['email']),
+                    'role' => $user['role'],
                     'profile_image' => $user['profile_image'] ?? '/images/default-profile.png',
                 ];
                 return true;
@@ -54,6 +52,13 @@ class UserModel {
             return false;
         }
     }
+
+    public function removeUser($userId) {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE user_id = ?");
+        return $stmt->execute([$userId]);
+    }
+
+
     public function updateUserByEmail($email, $username, $name, $surname, $age, $weight, $height, $profileImage) {
         // SQL sorgusunu hazırlayın
         $stmt = $this->db->prepare("
@@ -76,6 +81,40 @@ class UserModel {
     
         // Sorguyu çalıştırın ve sonucu döndürün
         return $stmt->execute();
+    }
+
+    public function addUser($username, $name, $surname, $email, $role, $password) {
+        // Check if username or email already exists
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ? OR email = ?");
+        $stmt->execute([$username, $email]);
+        if ($stmt->fetchColumn() > 0) {
+            return false; // Username or email already exists
+        }
+
+        // Insert the new user into the database
+        $stmt = $this->db->prepare("INSERT INTO users (username, name, surname, email, role, password) VALUES (?, ?, ?, ?, ?, ?)");
+        return $stmt->execute([$username, $name, $surname, $email, $role, $password]);
+    }
+
+    public function editUser($userId, $name, $email, $role, $password) {
+        $query = "UPDATE users SET name = ?, email = ?, role = ? ";
+        if ($password) {
+            $query .= ", password = ?";
+        }
+        $query .= " WHERE user_id = ?";
+
+        $stmt = $this->db->prepare($query);
+        if ($password) {
+            return $stmt->execute([$name, $email, $role, $password, $userId]);
+        } else {
+            return $stmt->execute([$name, $email, $role, $userId]);
+        }
+    }
+
+    public function getAllUsers() {
+        $stmt = $this->db->prepare("SELECT * FROM users");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     

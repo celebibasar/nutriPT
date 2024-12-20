@@ -55,6 +55,9 @@ class NutritionPlanController {
         }
 
         $goal = $nutritionPlan['goal'] ?? null;
+        $age = $nutritionPlan['age'] ?? null;
+        $weight = $nutritionPlan['weight'] ?? null;
+        $height = $nutritionPlan['height'] ?? null;
         $activityLevel = $nutritionPlan['activity_level'] ?? null;
         $dailyCalories = $nutritionPlan['daily_calories'] ?? null;
         $vegetarian = $nutritionPlan['vegetarian'] ?? null;
@@ -64,6 +67,9 @@ class NutritionPlanController {
         // Tüm verilerin doldurulmuş olup olmadığını kontrol et
         $missingFields = [];
         if (!$goal) $missingFields[] = 'Goal';
+        if (!$age) $missingFields[] = 'Age';
+        if (!$weight) $missingFields[] = 'Weight';
+        if (!$height) $missingFields[] = 'Height';
         if (!$activityLevel) $missingFields[] = 'Activity Level';
         if (!$dailyCalories) $missingFields[] = 'Daily Calories';
         if (!$vegetarian) $missingFields[] = 'Vegetarian';
@@ -76,6 +82,8 @@ class NutritionPlanController {
         }
 
         $this->nutritionPlanModel->saveNutritionPlan($userId, $goal, $activityLevel, $dailyCalories, $vegetarian, $mealPreference, $mealCount);
+
+        $this->nutritionPlanModel->saveUserPlan($userId, $age, $weight, $height);
 
         unset($_SESSION['nutrition_plan']);
 

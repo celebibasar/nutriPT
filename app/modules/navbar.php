@@ -41,7 +41,9 @@ $userData = isset($_SESSION['user']) ? $_SESSION['user'] : null;
                                 <span><?php echo htmlspecialchars($userData['name']) . ' ' . htmlspecialchars($userData['surname']); ?></span>
                                 <span class="arrow">&#9660;</span>
                                 <div class="dropdown-content">
-                                    <a href="/settings">Settings</a>
+                                    <?php if ($userData['role'] == 'admin'): ?>
+                                        <a href="/admin">Admin Panel</a>
+                                    <?php endif; ?>
                                     <a href="/profile">Profile</a>
                                     <a href="/logout">Logout</a>
                                 </div>

@@ -26,6 +26,13 @@ a {
     padding: 0 20px;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 
 
 /* Profile Edit */
@@ -890,6 +897,163 @@ footer .social-links a:hover {
     margin: 0.5rem 0;
 }
 
+.meal-list th, .meal-list td {
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+.meal-list th {
+    background-color: #333;
+    color: #fff;
+}
+.meal-list td img {
+    width: 120px;  
+    height: 80px;  
+    object-fit: cover;  
+    border-radius: 8px;
+}
+.button {
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+.button:hover {
+    background-color: #0056b3;
+}
+.action-buttons {
+    display: flex;
+    flex-direction: column; /* Düğmeleri dikey sıraya yerleştir */
+    justify-content: center; /* Dikeyde ortala */
+    align-items: center; /* Yatayda ortala */
+    height: 100%; /* Hücrenin tüm yüksekliğini kapsar */
+}
+
+.action-buttons .button {
+    margin: 5px 0; /* Düğmelerin arasına boşluk bırak */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-button {
+    background-color: #28a745; /* Green color for the Add button */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background-color: #218838;
+}
+
+/* Draggable Button */
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chat-button i {
+    font-size: 24px;
+}
+
+/* Chatbox Styles */
+.chat-box {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    height: 500px; /* Daha uzun hale getirilmiş */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 1001;
+}
+
+.chat-header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-weight: bold;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.chat-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.chat-message.user {
+    background-color: #4CAF50;
+    color: #fff;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.chat-message.bot {
+    background-color: #f1f1f1;
+    color: #333;
+    align-self: flex-start;
+    text-align: left;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.chat-input input {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.chat-input button {
+    margin-left: 5px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
 
 /* Services Section */
 .services-introduction {
@@ -1009,6 +1173,104 @@ footer .social-links a:hover {
 
 .form-group textarea {
     resize: vertical;
+}
+
+/* Admin Panel */
+
+.admin-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+.admin-menu {
+    width: 250px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-right: 2rem;
+}
+.admin-menu h2 {
+    margin-bottom: 1rem;
+}
+.admin-menu ul {
+    list-style: none;
+    padding: 0;
+}
+.admin-menu ul li {
+    margin: 0.5rem 0;
+}
+.admin-menu ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+.admin-menu ul li a:hover {
+    background-color: #ddd;
+}
+.admin-content {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.user-table th, .user-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.action-buttons a {
+    margin: 0 5px;
+}
+
+.action-buttons .button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+.action-buttons .button:hover {
+    opacity: 0.8;
+}
+
+.action-buttons .button[style="background-color: #dc3545;"] {
+    background-color: #dc3545;
+}
+
+.action-buttons .button[style="background-color: #dc3545;"]:hover {
+    background-color: #c82333;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
 }
 
 /* Contact Details Section */

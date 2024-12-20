@@ -4,6 +4,18 @@ if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
     exit();
 }
 
+$email = $_SESSION['email'] ?? null;
+if (!$email) {
+    die('Oturumda e-posta bulunamadı.');
+}
+
+$userData = $this->userModel->getUserByEmail($email);
+
+// Kullanıcı bulunamazsa hata mesajı ver
+if (!$userData || !isset($userData['user_id'])) {
+    die('Kullanıcı bulunamadı.');
+}
+
 ?>
 
 <!DOCTYPE html>

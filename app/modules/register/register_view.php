@@ -36,20 +36,6 @@
             <input type="email" id="email" name="email" required>
         </div>
         <div class="input-group">
-            <label for="age">Age</label>
-            <input type="number" id="age" name="age" required min="1">
-        </div>
-        
-        <div class="input-group">
-            <label for="weight">Weight (kg)</label>
-            <input type="text" id="weight" name="weight" required min="1" pattern="^\d+([,.]\d+)?$" title="Please enter a valid weight using . or ,">
-        </div>
-
-        <div class="input-group">
-            <label for="height">Height (cm)</label>
-            <input type="number" id="height" name="height" required min="1">
-        </div>
-        <div class="input-group">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
         </div>
@@ -64,16 +50,6 @@
         <p class="login-link">Already have an account? <a href="<?php echo $baseURL; ?>/login">Login</a></p>
     </form>
 </div>
-
-<script>
-    document.getElementById('weight').addEventListener('input', function (event) {
-        let value = event.target.value;
-
-        value = value.replace(',', '.');
-
-        event.target.value = value;
-    });
-</script>
 
 
 </body>

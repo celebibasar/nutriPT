@@ -3,6 +3,34 @@ if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
     header('Location: /login');
     exit();
 }
+
+$email = $_SESSION['email'] ?? null;
+if (!$email) {
+    die('Oturumda e-posta bulunamadı.');
+}
+
+$userData = $this->userModel->getUserByEmail($email);
+
+if ($userData) {
+    $_SESSION['user'] = [
+        'id' => $userData['user_id'],
+        'username' => htmlspecialchars($userData['username']),
+        'name' => htmlspecialchars($userData['name']),
+        'surname' => htmlspecialchars($userData['surname']),
+        'email' => htmlspecialchars($userData['email']),
+        'age' => $userData['age'],
+        'weight' => $userData['weight'],
+        'height' => $userData['height'],
+        'role' => $userData['role'],
+        'profile_image' => $userData['profile_image'] ?? '/images/default-profile.png',
+    ];
+}
+
+
+// Kullanıcı bulunamazsa hata mesajı ver
+if (!$userData || !isset($userData['user_id'])) {
+    die('Kullanıcı bulunamadı.');
+}
 ?>
 
 <!DOCTYPE html>
