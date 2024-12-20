@@ -95,7 +95,7 @@
 
     <section class="features">
         <div class="container">
-            <h2>Why Choose nutriPT?</h2>
+            <h2>Why choose nutriPT?</h2>
             <div class="features-grid">
                 <div class="feature-item">
                     <i class="fas fa-dumbbell"></i>
@@ -116,6 +116,97 @@
         </div>
     </section>
 </main>
+<div class="chat-button" id="chatButton">
+    <i class="fas fa-comment"></i>
+</div>
+
+<div class="chat-box" id="chatBox">
+    <div class="chat-header">Chat with your Diet Assistant</div>
+    <div class="chat-messages" id="chatMessages">
+    </div>
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    const chatButton = document.getElementById('chatButton');
+    const chatBox = document.getElementById('chatBox');
+
+    chatButton.addEventListener('click', () => {
+        chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    async function sendMessage() {
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const message = chatInput.value.trim();
+
+        if (message) {
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('chat-message', 'user');
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
+
+            chatInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            const API_KEY = "AIzaSyCEDg4JFDmzXWt4_Jv3QZyR-fBJ2TlJMLA";
+            const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyCEDg4JFDmzXWt4_Jv3QZyR-fBJ2TlJMLA';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            role: "user",
+                            parts: [{ text: message }],
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('API Error:', errorData);
+                    throw new Error(errorData.message || "API request failed");
+                }
+
+                const data = await response.json();
+
+                // Bot Message
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('chat-message', 'bot');
+                botMessage.innerHTML = data?.candidates[0].content.parts[0].text || "Bir hata oluştu veya geçerli bir mesaj alınamadı.";
+                chatMessages.appendChild(botMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                console.error('Gemini API Hatası:', error);
+
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('chat-message', 'bot');
+                botMessage.textContent = "Bir hata oluştu. Lütfen tekrar deneyin.";
+                chatMessages.appendChild(botMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+        }
+    }
+
+    chatButton.addEventListener('mousedown', (event) => {
+        let shiftX = event.clientX - chatButton.getBoundingClientRect().left;
+        let shiftY = event.clientY - chatButton.getBoundingClientRect().top;
+
+        chatButton.style.position = 'absolute';
+    });
+
+    chatButton.ondragstart = () => false;
+</script>
+
+
 
 <footer>
     <div class="container">

@@ -1,45 +1,36 @@
 <?php
-// Kullanıcının oturum açıp açmadığını kontrol et
 if (!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
     header('Location: /login');
     exit();
 }
 
-// Kullanıcının e-posta adresini al
 $email = $_SESSION['email'] ?? null;
 if (!$email) {
     die('Oturumda e-posta bulunamadı.');
 }
 
-// Kullanıcıyı e-posta adresine göre veritabanından al
 $userData = $this->userModel->getUserByEmail($email);
 
-// Kullanıcı bulunamazsa hata mesajı ver
 if (!$userData || !isset($userData['user_id'])) {
     die('Kullanıcı bulunamadı.');
 }
 
-// Kullanıcı ID'sini al
 $userId = $userData['user_id'];
-$mealPlan = $this->nutritionPlanModel->getMealPlanByUserId($userId); // Kullanıcıya ait beslenme planını al
+$mealPlan = $this->nutritionPlanModel->getMealPlanByUserId($userId); 
 
 if (!$mealPlan) {
     die('Beslenme planı bulunamadı.');
 }
 
-// Kullanıcıya ait mevcut planı kontrol edin
 $userPlan = $this->nutritionPlanModel->getUserPlanByUserId($userId);
 
 if ($userPlan && new DateTime($userPlan['end_date']) >= new DateTime()) {
-    // Eğer plan geçerliyse, mevcut planın tarihlerini kullan
     $startDate = new DateTime($userPlan['start_date']);
     $endDate = new DateTime($userPlan['end_date']);
 } else {
-    // Eğer plan yoksa veya süresi dolmuşsa, yeni bir başlangıç ve bitiş tarihi oluştur
     $startDate = new DateTime();
     $endDate = (clone $startDate)->modify('+30 days');
 
-    // Yeni plan oluştur ve veritabanına kaydet
     $newPlan = $this->nutritionPlanModel->getDailyMeals(
         $mealPlan['goal'],
         $mealPlan['activity_level'],
@@ -49,15 +40,12 @@ if ($userPlan && new DateTime($userPlan['end_date']) >= new DateTime()) {
         $mealPlan['meal_count']
     );
 
-    // Oluşturulan planı kontrol edin
     if (empty($newPlan)) {
-        die('Plan oluşturulamadı!'); // Hata mesajı
+        die('Plan oluşturulamadı!'); 
     }
 
-    // Planı JSON olarak dönüştür
     $planJson = json_encode($newPlan);
 
-    // JSON formatını kontrol edin
     if ($planJson === false) {
         die('JSON formatına dönüştürme hatası: ' . json_last_error_msg());
     }
@@ -68,7 +56,6 @@ if ($userPlan && new DateTime($userPlan['end_date']) >= new DateTime()) {
         $endDate->format('Y-m-d')
     );
 
-    // Yeni plan bilgilerini güncelle
     $userPlan = [
         'plan_json' => $planJson,
         'start_date' => $startDate->format('Y-m-d'),
@@ -76,7 +63,6 @@ if ($userPlan && new DateTime($userPlan['end_date']) >= new DateTime()) {
     ];
 }
 
-// Planı çözümle
 $mealPlan = json_decode($userPlan['plan_json'], true);
 
 if ($userPlan) {
@@ -84,22 +70,19 @@ if ($userPlan) {
 }
 
 
-$currentDate = new DateTime();  // Şu anki tarihi al
+$currentDate = new DateTime();  
 if (isset($_GET['month_offset'])) {
-    // Ay değiştirme işlemi
     $monthOffset = (int)$_GET['month_offset'];
-    $currentDate->modify("$monthOffset month"); // Ayı güncelle
+    $currentDate->modify("$monthOffset month"); 
 } else {
-    // Eğer parametre yoksa, normalde bu ay
     $monthOffset = 0;
 }
 
 
-// Ay ve yıl bilgisini güncelle
 $currentMonth = $currentDate->format('F Y');
 $firstDayOfMonth = new DateTime($currentDate->format('Y-m-01'));
 $firstDayOfWeek = (int)$firstDayOfMonth->format('w');
-$firstDayOfWeek = ($firstDayOfWeek === 0) ? 6 : $firstDayOfWeek - 1; // Pazartesi'yi haftanın ilk günü olarak ayarla
+$firstDayOfWeek = ($firstDayOfWeek === 0) ? 6 : $firstDayOfWeek - 1;
 $daysInMonth = (int)$firstDayOfMonth->format('t');
 
 $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -118,10 +101,12 @@ $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
 <body>
     <?php include_once __DIR__ . '/../navbar.php'; ?>
 
-    <div class="month-navigation">
-        <a href="?month_offset=<?php echo ($monthOffset === 1) ? 0 : -1; ?>" class="prev-month">&lt; Önceki Ay</a>
-        <h2>Monthly Meal Plan for <?php echo $currentMonth; ?></h2>
-        <a href="?month_offset=<?php echo ($monthOffset === -1) ? 0 : 1; ?>" class="next-month">Sonraki Ay &gt;</a>
+    <div class="container">
+        <div class="header">
+            <h2>Monthly Meal Plan for <?php echo $currentMonth; ?></h2>
+            <a href="?month_offset=<?php echo ($monthOffset === 1) ? 0 : -1; ?>" class="prev-month button">&lt; Previous Month</a>
+            <a href="?month_offset=<?php echo ($monthOffset === -1) ? 0 : 1; ?>" class="next-month button">Next Month &gt;</a>
+        </div>
     </div>
     <table class="meal-plan-calendar">
         <thead>

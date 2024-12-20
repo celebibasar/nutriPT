@@ -20,7 +20,9 @@ class HomeController {
         require_once __DIR__ . '/home_view.php';
     }
     
-
+    public function admin(): void {
+        require_once __DIR__ . '/../admin/admin_panel.php';
+    }
     public function about(): void
     {
         require_once __DIR__ . '/../about/about_view.php';

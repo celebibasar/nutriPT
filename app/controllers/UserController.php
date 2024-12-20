@@ -13,9 +13,6 @@ class UserController {
             $name = $_POST['name'];
             $surname = $_POST['surname'];
             $email = $_POST['email'];
-            $goal = $_POST['goal'];
-            $weight = str_replace(',', '.', $_POST['weight']); // Virgülleri noktaya çevirin
-            $height = $_POST['height'];
             $password = $_POST['password'];
             $confirmPassword = $_POST['confirm-password'];
 
@@ -34,9 +31,9 @@ class UserController {
             }
 
             // Kayıt işlemi başarılı mı?
-            if ($this->userModel->register($username, $name, $surname, $email, $age, $goal, $weight, $height, $password)) {
+            if ($this->userModel->register($username, $name, $surname, $email, $password)) {
                 $_SESSION['login_success'] = true; // Giriş başarılı mesajı için session
-                header('Location: /login');
+                header('Location: /nutriPT/login');
             } else {
                 $_SESSION['error'] = "Registration failed!";
                 header('Location: /nutriPT/register');
@@ -62,9 +59,7 @@ class UserController {
                     'surname' => $user['surname'],
                     'username' => $user['username'], // Kullanıcı adı ekleniyor
                     'email' => $user['email'], // E-posta ekleniyor
-                    'age' => $user['age'], // Yaş ekleniyor
-                    'weight' => $user['weight'], // Kilo ekleniyor
-                    'height' => $user['height'], // Boy ekleniyor
+                    'role' => $user['role'], // Rol ekleniyor
                     'profile_image' => $user['profile_image'] // Profil resmi
                 ];
                 $_SESSION['login_success'] = true;

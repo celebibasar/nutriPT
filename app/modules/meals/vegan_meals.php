@@ -39,7 +39,7 @@ $veganMeals = $this->mealModel->getMealsByType('vegan');
                     <?php foreach ($veganMeals as $meal): ?>
                         <div class="meal-item">
                             <img src="<?php echo $meal['image_url']; ?>" alt="<?php echo $meal['name']; ?>">
-                            <h3><?php echo $meal['name']; ?></h3>
+                            <a href="https://www.youtube.com/results?search_query=<?php echo urlencode($meal['name'] . ' recipe'); ?>" target="_blank" style="font-weight: bold; text-decoration: none;" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';"> <?php echo htmlspecialchars($meal['name']); ?> </a>
                             <p><?php echo $meal['description']; ?></p>
                             <ul>
                                 <li><strong>Calories:</strong> <?php echo $meal['calories']; ?> kcal</li>

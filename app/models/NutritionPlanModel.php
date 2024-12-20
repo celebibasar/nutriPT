@@ -28,6 +28,24 @@ class NutritionPlanModel
             return false;
         }
     }
+    public function saveUserPlan ($userId, $age, $weight, $height){
+        try {
+            $stmt = $this->db->prepare("
+                UPDATE users 
+                SET age = :age, height = :height, weight = :weight
+                WHERE user_id = :user_id
+            ");
+            return $stmt->execute([
+                ':user_id' => $userId,
+                ':height' => intval($height),
+                ':weight' => intval($weight),
+                ':age' => intval($age),
+            ]);
+        } catch (PDOException $e) {
+            error_log("Save User Plan Error: " . $e->getMessage());
+            return false;
+        }
+    }
 
     public function getMealPlanByUserId($userId)
     {
